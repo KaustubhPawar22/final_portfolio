@@ -1,26 +1,279 @@
 @import "tailwindcss";
 
+/* ==============================
+   Theme Variables (HSL triplets)
+============================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 0.65rem;
+
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+
+  /* 🌹 Primary (rose) */
+  --primary: 346 77% 49%;
+  --primary-foreground: 355.7 100% 97.3%;
+
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 346 77% 49%;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ==============================
+   Dark Mode Variables
+============================== */
+.dark {
+  --background: 20 14.3% 4.1%;
+  --foreground: 0 0% 95%;
+
+  --card: 24 9.8% 10%;
+  --card-foreground: 0 0% 95%;
+
+  --popover: 0 0% 9%;
+  --popover-foreground: 0 0% 95%;
+
+  /* Keep rose primary in dark too */
+  --primary: 346 77% 49%;
+  --primary-foreground: 355.7 100% 97.3%;
+
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+
+  --muted: 0 0% 15%;
+  --muted-foreground: 240 5% 64.9%;
+
+  --accent: 12 6.5% 15.1%;
+  --accent-foreground: 0 0% 98%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 85.7% 97.3%;
+
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 346 77% 49%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ==============================
+   Map variables -> Tailwind tokens
+   (this makes text-primary / bg-background, etc. exist)
+============================== */
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-button-bg: hsl(var(--primary) / 25%);
+  --color-button-bg-hover: hsl(346 77% 60% / 25%);
+  --color-button-text: hsl(var(--primary-foreground));
+  --color-button-text-hover: hsl(var(--primary-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+}
+
+/* ==============================
+   Base Styles
+============================== */
+@layer base {
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+
+  html {
+    -ms-overflow-style: none; /* IE 10+ */
+    scrollbar-width: none; /* Firefox */
+  }
+  body {
+    @apply bg-background text-foreground;
+    cursor: default;
+    overflow: hidden;
+  }
+
+  a,
+  button,
+  .clickable {
+    cursor: pointer;
+  }
+  input,
+  textarea,
+  select {
+    cursor: text;
+  }
+
+  /* Smooth theme transitions */
+  * {
+    @apply border-border;
+    transition-property: background-color, color, border-color, fill, stroke;
+    transition-duration: 600ms;
+  }
+
+  /* Prevent flicker during theme toggle */
+  html.transitioning * {
+    transition: none !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ==============================
+   Background Gradient Animation
+============================== */
+/* body::before {
+  background:
+    radial-gradient(circle at top left, hsl(var(--background)) 0%, hsl(var(--background)) 100%),
+    radial-gradient(circle at bottom right, hsl(var(--background)) 0%, hsl(var(--background)) 100%);
+} */
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 0%, 100% 100%;
+  }
+  100% {
+    background-position: 10% 10%, 90% 90%;
+  }
+}
+
+/* ==============================
+   Glass Effect (kept neutral)
+============================== */
+/* ==============================
+   Glass Card
+============================== */
+.glass {
+  @apply border border-white/10 backdrop-blur-lg p-2 max-w-xl mx-auto rounded-2xl transition-all duration-300 ease-in-out;
+  background-color: color-mix(in srgb, hsl(var(--background)) 80%, transparent);
+}
+
+.glass:hover {
+  transform: scale(1.03);
+  box-shadow:
+    0 8px 20px rgba(255, 255, 255, 0.15),
+    0 0 30px rgba(255, 255, 255, 0.08);
+}
+
+.dark .glass:hover {
+  box-shadow:
+    0 8px 20px rgba(255, 255, 255, 0.08),
+    0 0 25px rgba(255, 255, 255, 0.05);
+}
+
+/* ==============================
+   Glass Card for Content
+============================== */
+.glass-card {
+  @apply rounded-2xl border border-white/10 backdrop-blur-lg text-foreground transition-all duration-300 ease-in-out;
+  background-color: color-mix(in srgb, hsl(var(--background)) 80%, transparent);
+}
+
+.glass-card:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 10px 25px rgba(255, 255, 255, 0.12),
+    0 0 35px rgba(255, 255, 255, 0.08);
+}
+
+.dark .glass-card:hover {
+  box-shadow:
+    0 10px 25px rgba(255, 255, 255, 0.08),
+    0 0 30px rgba(255, 255, 255, 0.05);
+}
+
+/* ==============================
+   Glass Buttons
+============================== */
+.button-glass {
+  @apply rounded-2xl border border-white/10 backdrop-blur-lg text-foreground font-semibold transition-all duration-300 ease-in-out;
+  background-color: color-mix(in srgb, hsl(var(--background)) 80%, transparent);
+}
+
+.button-glass:hover {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  transform: scale(1.1);
+  border-color: hsl(var(--primary));
+  box-shadow:
+    0 8px 20px rgba(255, 0, 128, 0.3),
+    0 0 30px rgba(255, 0, 128, 0.2);
+}
+
+.dark .button-glass:hover {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  box-shadow:
+    0 8px 20px rgba(255, 0, 128, 0.2),
+    0 0 25px rgba(255, 0, 128, 0.15);
+}
+
+@layer utilities {
+  .shadow-light {
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.15);
+  }
+}
+
+.rgb-wave {
+  font-weight: bold; /* optional */
+  background: linear-gradient(
+    270deg,
+    #ff0000,
+    #ff7f00,
+    #ffff00,
+    #00ff00,
+    #0000ff,
+    #4b0082,
+    #8f00ff,
+    #ff0000
+  );
+  background-size: 1400% 1400%; /* make gradient larger for smooth motion */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rgbWave 10s ease-in-out infinite;
+}
+
+@keyframes rgbWave {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

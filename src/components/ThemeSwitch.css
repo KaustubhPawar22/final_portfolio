@@ -1,0 +1,72 @@
+.switch-wrapper input[type="checkbox"] {
+  visibility: hidden;
+  display: none;
+}
+
+.switch-wrapper *,
+.switch-wrapper ::after,
+.switch-wrapper ::before {
+  box-sizing: border-box;
+}
+
+.switch-wrapper .switch {
+  --width-of-switch: 3.5em;
+  --height-of-switch: 2em;
+  --size-of-icon: 1.4em;
+  --slider-offset: 0.3em;
+  position: relative;
+  width: var(--width-of-switch);
+  height: var(--height-of-switch);
+  display: inline-block;
+}
+
+/* Glassmorphism track */
+.glass-switch {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.switch-wrapper .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 30px;
+  transition: background-color 0.4s ease;
+  will-change: background-color, transform;
+}
+
+/* Knob styles */
+.knob {
+  position: absolute;
+  top: 50%;
+  left: var(--slider-offset, 0.3em);
+  transform: translateY(-50%);
+  width: var(--size-of-icon, 1.4em);
+  height: var(--size-of-icon, 1.4em);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.4s ease;
+}
+
+.light-knob {
+  transform: translateY(-50%) translateX(0);
+}
+
+.dark-knob {
+  transform: translateY(-50%)
+    translateX(calc(3.5em - 1.4em - 0.3em * 2));
+  background: #303136;
+}
+
+.switch-wrapper input:checked + .slider.glass-switch {
+  background: rgba(48, 49, 54, 0.15);
+}
