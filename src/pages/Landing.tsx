@@ -38,6 +38,7 @@ import { Loader2 } from "lucide-react";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import Cursor from "@/components/effects/Cursor";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
+import Image from "next/image";
 
 const HeroSection = () => {
   return (
@@ -350,6 +351,7 @@ const SkillsSection = () => {
       <div className="container mx-auto">
         <h2 className="text-4xl font-bold text-center mb-12">Skills</h2>
         <div className="grid md:grid-cols-3 gap-8">
+          {/* Technical */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -362,13 +364,19 @@ const SkillsSection = () => {
               <h3 className="text-2xl font-bold text-center">Technical</h3>
             </div>
             <div className="flex flex-wrap gap-2">
-              {skills.technical.map((skill) => (
-                <Badge key={skill} variant="secondary" className="glass">
+              {skills.technical.map((skill, i) => (
+                <Badge
+                  key={`${skill}-${i}`}
+                  variant="secondary"
+                  className="glass"
+                >
                   {skill}
                 </Badge>
               ))}
             </div>
           </motion.div>
+
+          {/* Business */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -381,13 +389,19 @@ const SkillsSection = () => {
               <h3 className="text-2xl font-bold text-center">Business</h3>
             </div>
             <div className="flex flex-wrap gap-2">
-              {skills.business.map((skill) => (
-                <Badge key={skill} variant="secondary" className="glass">
+              {skills.business.map((skill, i) => (
+                <Badge
+                  key={`${skill}-${i}`}
+                  variant="secondary"
+                  className="glass"
+                >
                   {skill}
                 </Badge>
               ))}
             </div>
           </motion.div>
+
+          {/* Soft */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -400,8 +414,12 @@ const SkillsSection = () => {
               <h3 className="text-2xl font-bold text-center">Soft</h3>
             </div>
             <div className="flex flex-wrap gap-2">
-              {skills.soft.map((skill) => (
-                <Badge key={skill} variant="secondary" className="glass">
+              {skills.soft.map((skill, i) => (
+                <Badge
+                  key={`${skill}-${i}`}
+                  variant="secondary"
+                  className="glass"
+                >
                   {skill}
                 </Badge>
               ))}
@@ -457,44 +475,77 @@ const projects = [
   },
 ];
 
+const ProjectCard = ({ project }: { project: (typeof projects)[0] }) => (
+  <div className="glass-card grid md:grid-cols-2 gap-8 items-center p-8 rounded-2xl overflow-hidden">
+    <motion.div
+      className="h-full w-full"
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Image
+        src={project.image}
+        alt={project.title}
+        width={600}
+        height={400}
+        className="rounded-lg object-cover w-full h-[300px] md:h-[400px]"
+      />
+    </motion.div>
+    <div>
+      <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
+      <p className="text-foreground/70 mb-6">{project.description}</p>
+      <div className="flex flex-wrap gap-2 mb-6">
+        {project.tags.map((tag) => (
+          <Badge key={tag} variant="secondary" className="glass">
+            {tag}
+          </Badge>
+        ))}
+      </div>
+      <Button asChild variant="outline" className="glass-card">
+        <a href={project.link} target="_blank" rel="noopener noreferrer">
+          View Project <ArrowUpRight className="w-4 h-4 ml-2" />
+        </a>
+      </Button>
+    </div>
+  </div>
+);
+
+const StickyProjectCard = ({
+  project,
+  index,
+  scrollYProgress,
+  total,
+}: {
+  project: (typeof projects)[0];
+  index: number;
+  scrollYProgress: any;
+  total: number;
+}) => {
+  const scale = useTransform(
+    scrollYProgress,
+    [index / total, (index + 0.8) / total],
+    [1, 0.9]
+  );
+
+  return (
+    <motion.div
+      style={{
+        position: "sticky",
+        top: "6rem",
+        scale,
+      }}
+      className="pt-4"
+    >
+      <ProjectCard project={project} />
+    </motion.div>
+  );
+};
+
 const ProjectsSection = () => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
   });
-
-  const ProjectCard = ({ project }: { project: (typeof projects)[0] }) => (
-    <div className="glass-card grid md:grid-cols-2 gap-8 items-center p-8 rounded-2xl overflow-hidden">
-      <motion.div
-        className="h-full w-full"
-        whileHover={{ scale: 1.05 }}
-        transition={{ duration: 0.3 }}
-      >
-        <img
-          src={project.image}
-          alt={project.title}
-          className="rounded-lg object-cover w-full h-[300px] md:h-[400px]"
-        />
-      </motion.div>
-      <div>
-        <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
-        <p className="text-foreground/70 mb-6">{project.description}</p>
-        <div className="flex flex-wrap gap-2 mb-6">
-          {project.tags.map((tag) => (
-            <Badge key={tag} variant="secondary" className="glass">
-              {tag}
-            </Badge>
-          ))}
-        </div>
-        <Button asChild variant="outline" className="glass-card">
-          <a href={project.link} target="_blank" rel="noopener noreferrer">
-            View Project <ArrowUpRight className="w-4 h-4 ml-2" />
-          </a>
-        </Button>
-      </div>
-    </div>
-  );
 
   return (
     <section id="projects" className="py-24 px-6">
@@ -512,32 +563,21 @@ const ProjectsSection = () => {
 
         {/* Desktop Layout: Sticky Scroll */}
         <div ref={ref} className="hidden md:block relative h-[300vh]">
-          {projects.map((project, i) => {
-            const scale = useTransform(
-              scrollYProgress,
-              [i / projects.length, (i + 0.8) / projects.length],
-              [1, 0.9]
-            );
-
-            return (
-              <motion.div
-                key={project.title}
-                style={{
-                  position: "sticky",
-                  top: "6rem",
-                  scale,
-                }}
-                className="pt-4"
-              >
-                <ProjectCard project={project} />
-              </motion.div>
-            );
-          })}
+          {projects.map((project, i) => (
+            <StickyProjectCard
+              key={project.title}
+              project={project}
+              index={i}
+              scrollYProgress={scrollYProgress}
+              total={projects.length}
+            />
+          ))}
         </div>
       </div>
     </section>
   );
 };
+
 
 type Experience = {
   role: string;
@@ -821,8 +861,8 @@ const ContactSection = () => {
       <div className="container mx-auto max-w-2xl text-center">
         <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
         <p className="text-foreground/70 mb-8">
-          I'm currently open to new opportunities and collaborations. If you
-          have a project in mind or just want to connect, feel free to reach
+          I&apos;m currently open to new opportunities and collaborations. If
+          you have a project in mind or just want to connect, feel free to reach
           out.
         </p>
 

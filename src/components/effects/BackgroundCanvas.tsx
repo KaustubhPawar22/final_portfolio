@@ -1,4 +1,6 @@
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+"use client";
+
+import { Canvas, useThree } from "@react-three/fiber";
 import { useRef, useMemo, useState, useEffect } from "react";
 import * as THREE from "three";
 
@@ -24,13 +26,6 @@ const ShaderPlane = ({ themeValue }: { themeValue: number }) => {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const { viewport } = useThree();
 
-  const uniforms = useMemo(
-    () => ({
-      u_theme: { value: themeValue },
-    }),
-    []
-  );
-
   useEffect(() => {
     if (materialRef.current) {
       materialRef.current.uniforms.u_theme.value = themeValue;
@@ -44,9 +39,9 @@ const ShaderPlane = ({ themeValue }: { themeValue: number }) => {
         ref={materialRef}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
-        uniforms={uniforms}
-        transparent={false}
-        depthWrite={true}
+        uniforms={{
+          u_theme: { value: themeValue },
+        }}
       />
     </mesh>
   );
@@ -55,7 +50,7 @@ const ShaderPlane = ({ themeValue }: { themeValue: number }) => {
 export default function BackgroundCanvas() {
   const [themeValue, setThemeValue] = useState<number>(
     typeof window !== "undefined" &&
-    document.documentElement.classList.contains("dark")
+      document.documentElement.classList.contains("dark")
       ? 1
       : 0
   );

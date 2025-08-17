@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import Lenis from "@studio-freight/lenis";
+import Lenis, { LenisOptions } from "@studio-freight/lenis";
 
 export default function ScrollProgressBar() {
   useEffect(() => {
@@ -9,31 +9,30 @@ export default function ScrollProgressBar() {
       typeof window !== "undefined" &&
       window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
-    // Tuned config: firmer mouse-wheel, slight buttery slide, ease-in curve
-    const config = prefersReduced
-      ? { smooth: false, smoothTouch: false, wheelMultiplier: 1 }
+    // ✅ Lenis v4 valid config
+    const config: LenisOptions = prefersReduced
+      ? { wheelMultiplier: 1 }
       : {
-          smooth: true,
-          smoothTouch: true,   // keep touch slightly softer
-          duration: 0.7,       // quicker settle than buttery preset
-          lerp: 0.28,          // firmer interpolation for mouse wheel
-          wheelMultiplier: 0.85, // moderate wheel travel per tick
+          duration: 0.7,
+          lerp: 0.28,
+          wheelMultiplier: 0.85,
           touchMultiplier: 0.95,
-          // subtle ease-in curve for natural ramp-up
           easing: (t: number) => Math.pow(t, 1.4),
         };
 
     const lenis = new Lenis(config);
 
     let rafId = 0;
-    function updateProgressBar(lenisInstance: Lenis) {
-      const rawLimit = (lenisInstance as any).limit;
-      const limit =
-        rawLimit && !isNaN(rawLimit)
-          ? rawLimit
-          : Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
 
-      const scroll = (lenisInstance as any).scroll ?? window.scrollY;
+    // ✅ Progress bar updater
+    function updateProgressBar(lenisInstance: Lenis) {
+      const scroll =
+        (lenisInstance as unknown as { scroll?: number }).scroll ??
+        window.scrollY;
+      const limit =
+        (lenisInstance as unknown as { limit?: number }).limit ??
+        Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
+
       const progress = limit > 0 ? Math.min(1, Math.max(0, scroll / limit)) : 0;
       const bar = document.getElementById("scroll-progress");
       if (bar) bar.style.width = `${progress * 100}%`;
@@ -47,17 +46,19 @@ export default function ScrollProgressBar() {
 
     rafId = requestAnimationFrame(raf);
 
-    // expose instance for dev debugging
-    if (process.env.NODE_ENV === "development") (window as any).__lenis = lenis;
+    if (process.env.NODE_ENV === "development") {
+      (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
+    }
 
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
       try {
-        if (typeof (lenis as any).destroy === "function") (lenis as any).destroy();
-      } catch (e) {
+        const destroyFn = (lenis as unknown as { destroy?: () => void }).destroy;
+        if (destroyFn) destroyFn();
+      } catch {
         /* ignore destroy errors */
       }
-      if ((window as any).__lenis) delete (window as any).__lenis;
+      delete (window as unknown as { __lenis?: Lenis }).__lenis;
     };
   }, []);
 
