@@ -39,8 +39,11 @@ import ScrollProgressBar from "@/components/ScrollProgressBar";
 import Cursor from "@/components/effects/Cursor";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
 import Image from "next/image";
+import { destroyLenis, initLenis } from "@/lib/lenis";
 
 const HeroSection = () => {
+   const { scrollTo } = useLenisScroll();
+   
   return (
     <section
       id="home"
@@ -65,8 +68,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          Data-Driven{" "}
-          <span className="rgb-wave">Business Insights</span>
+          Data-Driven <span className="rgb-wave">Business Insights</span>
         </motion.p>
 
         {/* Tagline */}
@@ -88,13 +90,18 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <Button
-            asChild
             size="lg"
             className="button-glass hover:scale-105 transition-transform"
+            onClick={() =>
+              scrollTo("#projects", {
+                offset: -80,
+                duration: 1.2,
+                easing: (t: number) =>
+                  Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+              })
+            }
           >
-            <a href="#projects">
-              View My Work <Briefcase className="w-4 h-4 ml-2" />
-            </a>
+            View My Work <Briefcase className="w-4 h-4 ml-2" />
           </Button>
           <Button
             asChild
@@ -791,59 +798,59 @@ function ExperienceSection() {
           })}
 
           {/* LAST ITEM */}
-{last && (
-  <div
-    data-index={lastIndex}
-    ref={(el) => {
-      if (el) observerRefs.current[lastIndex] = el;
-    }}
-    className="relative"
-  >
-    <div className="grid grid-cols-1 md:grid-cols-[1fr_2px_1fr] items-center">
-      <div className="hidden md:block" />
+          {last && (
+            <div
+              data-index={lastIndex}
+              ref={(el) => {
+                if (el) observerRefs.current[lastIndex] = el;
+              }}
+              className="relative"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-[1fr_2px_1fr] items-center">
+                <div className="hidden md:block" />
 
-      <div className="flex items-center justify-center py-2">
-        {/* Fixed: Proper centering with flex container */}
-        <div className="relative flex items-center justify-center">
-          <div className="w-4 h-4 rounded-full bg-primary z-20 shadow" />
-          
-          {/* Ripple animations - positioned to center on the dot */}
-          <motion.div
-            className="absolute w-4 h-4 rounded-full border-2 border-primary z-10"
-            style={{ 
-              top: '0%',
-              left: '0%',
-              transformOrigin: 'center',
-              transform: 'translate(-50%, -50%)'
-            }}
-            animate={{ scale: [1, 4.5], opacity: [0, 0.7, 0] }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-          <motion.div
-            className="absolute w-4 h-4 rounded-full border-2 border-primary z-10"
-            style={{ 
-              top: '0%',
-              left: '0%',
-              transformOrigin: 'center',
-              transform: 'translate(-50%, -50%)'
-            }}
-            animate={{ scale: [1, 4.5], opacity: [0, 0.7, 0] }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "linear",
-              delay: 1.5,
-            }}
-          />
-        </div>
-      </div>
+                <div className="flex items-center justify-center py-2">
+                  {/* Fixed: Proper centering with flex container */}
+                  <div className="relative flex items-center justify-center">
+                    <div className="w-4 h-4 rounded-full bg-primary z-20 shadow" />
 
-      <div className="hidden md:block" />
-    </div>
+                    {/* Ripple animations - positioned to center on the dot */}
+                    <motion.div
+                      className="absolute w-4 h-4 rounded-full border-2 border-primary z-10"
+                      style={{
+                        top: "0%",
+                        left: "0%",
+                        transformOrigin: "center",
+                        transform: "translate(-50%, -50%)",
+                      }}
+                      animate={{ scale: [1, 4.5], opacity: [0, 0.7, 0] }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
+                    />
+                    <motion.div
+                      className="absolute w-4 h-4 rounded-full border-2 border-primary z-10"
+                      style={{
+                        top: "0%",
+                        left: "0%",
+                        transformOrigin: "center",
+                        transform: "translate(-50%, -50%)",
+                      }}
+                      animate={{ scale: [1, 4.5], opacity: [0, 0.7, 0] }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "linear",
+                        delay: 1.5,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="hidden md:block" />
+              </div>
 
               <div className="w-full flex justify-center mt-10 md:mt-8">
                 <motion.div
@@ -858,7 +865,9 @@ function ExperienceSection() {
                       : "hover:scale-[1.03] hover:shadow-xl transition-transform duration-300"
                   }`}
                 >
-                  <p className="text-sm text-foreground/60 mb-1">{last.period}</p>
+                  <p className="text-sm text-foreground/60 mb-1">
+                    {last.period}
+                  </p>
                   <h3 className="text-xl font-bold">{last.role}</h3>
                   <p className="text-primary font-semibold">{last.company}</p>
                   <p className="text-foreground/70 mt-2">{last.description}</p>
@@ -1026,7 +1035,7 @@ const ScrollToTopButton = () => {
         const viewportHeight = window.innerHeight;
         const buttonHeight = 56; // Approximate button height with padding
         const buffer = 24;
-        
+
         if (footerRect.top <= viewportHeight) {
           // Calculate how much the button should move up
           const footerVisible = viewportHeight - footerRect.top;
@@ -1047,7 +1056,7 @@ const ScrollToTopButton = () => {
 
     window.addEventListener("scroll", throttledScroll, { passive: true });
     onScroll(); // Initial check
-    
+
     return () => {
       window.removeEventListener("scroll", throttledScroll);
       clearTimeout(timeoutId);
@@ -1061,7 +1070,7 @@ const ScrollToTopButton = () => {
         easing: (t: number) => {
           // Very smooth ease-out
           return 1 - Math.pow(1 - t, 3);
-        }
+        },
       });
     } else {
       // Enhanced fallback with even smoother animation
@@ -1078,14 +1087,14 @@ const ScrollToTopButton = () => {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
         const eased = smoothEase(progress);
-        
+
         window.scrollTo(0, Math.round(start * (1 - eased)));
-        
+
         if (progress < 1) {
           requestAnimationFrame(animate);
         }
       };
-      
+
       requestAnimationFrame(animate);
     }
   };
@@ -1096,19 +1105,19 @@ const ScrollToTopButton = () => {
         <motion.div
           className="fixed right-6 z-50"
           initial={{ opacity: 0 }}
-          animate={{ 
+          animate={{
             opacity: 1,
-            bottom: bottomOffset
+            bottom: bottomOffset,
           }}
           exit={{ opacity: 0 }}
-          transition={{ 
+          transition={{
             opacity: { duration: 0.2, ease: "easeInOut" },
-            bottom: { 
-              type: "spring", 
-              stiffness: 300, 
+            bottom: {
+              type: "spring",
+              stiffness: 300,
               damping: 30,
-              mass: 0.8
-            }
+              mass: 0.8,
+            },
           }}
         >
           {/* Rest of your button JSX remains the same */}
@@ -1123,17 +1132,17 @@ const ScrollToTopButton = () => {
               type: "spring",
               stiffness: 400,
               damping: 25,
-              mass: 0.8
+              mass: 0.8,
             }}
             whileHover={{
               scale: 1.1,
               y: -3,
               boxShadow: "0 15px 30px rgba(0, 0, 0, 0.2)",
-              transition: { type: "spring", stiffness: 500, damping: 20 }
+              transition: { type: "spring", stiffness: 500, damping: 20 },
             }}
             whileTap={{
               scale: 0.9,
-              transition: { type: "spring", stiffness: 700, damping: 30 }
+              transition: { type: "spring", stiffness: 700, damping: 30 },
             }}
             className="p-4 rounded-full glass shadow-lg focus:outline-none ring-0 group backdrop-blur-md border border-white/10"
           >
@@ -1141,13 +1150,12 @@ const ScrollToTopButton = () => {
               animate={{
                 rotate: hovered ? 360 : 0,
                 y: hovered ? -1 : 0,
-                transition: { duration: 0.3, ease: "easeInOut" }
+                transition: { duration: 0.3, ease: "easeInOut" },
               }}
             >
               <ArrowUp className="h-5 w-5 text-foreground group-hover:text-primary transition-colors duration-200" />
-            
             </motion.div>
-            
+
             {hovered && (
               <motion.div
                 initial={{ scale: 0, opacity: 0.6 }}
@@ -1163,13 +1171,20 @@ const ScrollToTopButton = () => {
   );
 };
 
-
 export default function Landing() {
-  // Removed unused theme and themeValue variables completely
+  useEffect(() => {
+    // Remove this line if not using it:
+    // const lenisInstance = initLenis();
 
+    // Or use it properly:
+    initLenis();
+
+    return () => {
+      destroyLenis();
+    };
+  }, []);
   return (
     <main className="relative">
-      {/* Cursor, ScrollProgressBar, ThemeToggleButton, BackgroundCanvas */}
       <Cursor />
       <ScrollProgressBar />
       <ThemeToggleButton />

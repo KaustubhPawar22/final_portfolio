@@ -20,16 +20,33 @@ interface LenisInstance {
 
 export const useLenisScroll = () => {
   const [lenis, setLenis] = useState<LenisInstance | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     // Check for global Lenis instance
-    if (typeof window !== 'undefined') {
-      const globalLenis = (window as any).lenis;
-      if (globalLenis) {
-        setLenis(globalLenis);
+    const checkLenis = () => {
+      if (typeof window !== 'undefined') {
+        const globalLenis = (window as unknown as { lenis?: LenisInstance }).lenis; // Fixed: removed 'any'
+        if (globalLenis && !lenis) {
+          setLenis(globalLenis);
+          setIsReady(true);
+          console.log('Lenis ready');
+        }
       }
-    }
-  }, []);
+    };
+
+    // Check immediately and set up interval
+    checkLenis();
+    const interval = setInterval(checkLenis, 100);
+    
+    // Clear interval after 3 seconds
+    const timeout = setTimeout(() => clearInterval(interval), 3000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [lenis]);
 
   const scrollTo = useCallback((
     target: string | number | HTMLElement, 
@@ -37,18 +54,19 @@ export const useLenisScroll = () => {
   ) => {
     if (lenis?.scrollTo) {
       lenis.scrollTo(target, options);
+      console.log('Scrolling with Lenis to:', target);
     } else {
-      // Fallback for when Lenis isn't available
-      console.log('Lenis not available, using fallback scroll');
+      // Fallback scroll
+      console.log('Lenis not ready, using fallback scroll');
       if (typeof target === 'string') {
         const element = document.querySelector(target);
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       } else if (typeof target === 'number') {
         window.scrollTo({ top: target, behavior: 'smooth' });
       } else if (target instanceof HTMLElement) {
-        target.scrollIntoView({ behavior: 'smooth' });
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
   }, [lenis]);
@@ -61,6 +79,6 @@ export const useLenisScroll = () => {
     scrollTo,
     scrollToTop,
     lenis,
-    isReady: !!lenis,
+    isReady,
   };
 };
