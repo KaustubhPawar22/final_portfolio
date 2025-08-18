@@ -21,7 +21,7 @@ import {
   BarChart2,
   BrainCircuit,
   Code,
-  Clipboard
+  Clipboard,
 } from "lucide-react";
 import Lottie from "lottie-react";
 import wavingHand from "@/assets/hand_wave.json";
@@ -29,6 +29,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useLenisScroll } from "@/hooks/useLenisScroll";
 // import Lenis from "lenis";
 // import BackgroundCanvas from "@/components/effects/BackgroundCanvas";
 // import useMousePosition from "@/hooks/use-mouse-position";
@@ -49,7 +50,7 @@ const HeroSection = () => {
       <div className="relative z-10 px-6">
         {/* Name with RGB animation */}
         <motion.h1
-          className="text-5xl sm:text-5xl md:text-7xl font-bold mb-4 rgb-wave"
+          className="business-glow text-5xl sm:text-5xl md:text-7xl font-bold mb-4 text-primary"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -59,18 +60,18 @@ const HeroSection = () => {
 
         {/* Headline with glow on Business Insights */}
         <motion.p
-          className="text-lg md:text-xl text-foreground/70 mb-2 max-w-3xl mx-auto"
+          className="text-lg md:text-xl text-foreground mb-2 max-w-3xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           Data-Driven{" "}
-          <span className="business-glow font-semibold">Business Insights</span>
+          <span className="rgb-wave">Business Insights</span>
         </motion.p>
 
         {/* Tagline */}
         <motion.p
-          className="text-md md:text-lg text-foreground/60 mb-8 max-w-3xl mx-auto"
+          className="text-md md:text-lg text-foreground mb-8 max-w-3xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
@@ -181,8 +182,8 @@ const AboutSection = () => {
           {/* Front side */}
           <div
             className="absolute w-full h-full rounded-full flex items-center justify-center
-            glass-card bg-white/30 dark:bg-gray-900/40
-            text-primary font-semibold text-base select-none shadow-md"
+            glass-card 
+            text-primary font-semibold select-none shadow-md"
             style={{ backfaceVisibility: "hidden" }}
           >
             Hi
@@ -348,7 +349,9 @@ const SkillsSection = () => {
   return (
     <section id="skills" className="py-24 px-6">
       <div className="container mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-12">Skills</h2>
+        <h2 className="frosted-text text-4xl font-bold text-center mb-12">
+          Skills
+        </h2>
         <div className="grid md:grid-cols-3 gap-8">
           {/* Technical */}
           <motion.div
@@ -516,7 +519,7 @@ const StickyProjectCard = ({
 }: {
   project: (typeof projects)[0];
   index: number;
-  scrollYProgress: import('framer-motion').MotionValue<number>; // Fixed the any type
+  scrollYProgress: import("framer-motion").MotionValue<number>; // Fixed the any type
   total: number;
 }) => {
   const scale = useTransform(
@@ -549,7 +552,7 @@ const ProjectsSection = () => {
   return (
     <section id="projects" className="py-24 px-6">
       <div className="container mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-12">
+        <h2 className="frosted-text text-4xl font-bold text-center mb-12">
           Featured Projects
         </h2>
 
@@ -577,7 +580,6 @@ const ProjectsSection = () => {
   );
 };
 
-
 type Experience = {
   role: string;
   company: string;
@@ -586,6 +588,13 @@ type Experience = {
 };
 
 const EXPERIENCES: Experience[] = [
+  // {
+  //   role: "High School",
+  //   company: "CGHS",
+  //   period: "Graduated May 2020",
+  //   description:
+  //     "Graduated with a B.Sc. in Computer Science, achieving an 8.75/10.0 GPA. Developed a strong foundation in programming, data structures, and algorithms through rigorous coursework and practical projects.",
+  // },
   {
     role: "B.Sc. Computer Science",
     company: "D.G. Ruparel College",
@@ -671,17 +680,32 @@ function ExperienceSection() {
     setTimeout(() => setActiveTap(null), 450);
   };
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [lineHeight, setLineHeight] = useState(0);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      // Adjust this subtraction if you change top offset of the line
+      const height = containerRef.current.offsetHeight - 440; // 5.5rem = 88px
+      setLineHeight(height > 0 ? height : 0);
+    }
+  }, [items.length]);
+
   return (
     <section id="experience" className="py-24 px-6">
       <div className="container mx-auto max-w-6xl relative">
-        <h2 className="text-4xl font-bold text-center mb-14">
+        <h2 className="frosted-text text-4xl font-bold text-center mb-14">
           Experience & Education
         </h2>
 
-        {/* vertical line (desktop) */}
-        <div className="hidden md:block absolute left-1/2 top-[5.5rem] -translate-x-1/2 w-[2px] h-[calc(100%-5.5rem)] bg-foreground/10 pointer-events-none" />
+        {/* Vertical line with dynamic height */}
+        <div
+          className="hidden md:block absolute left-1/2 top-[12.5rem] -translate-x-1/2 w-[2px] bg-foreground/10 pointer-events-none"
+          style={{ height: lineHeight }}
+        />
 
-        <div className="flex flex-col gap-20">
+        {/* Timeline container with ref */}
+        <div className="flex flex-col gap-20" ref={containerRef}>
           {items.map((exp, idx) => {
             const globalIndex = idx;
             const isLeft = idx % 2 === 0;
@@ -698,7 +722,7 @@ function ExperienceSection() {
                 data-index={globalIndex}
                 className="relative"
               >
-                <div className="grid grid-cols-1 md:grid-cols-[1fr_72px_1fr] items-center">
+                <div className="grid grid-cols-1 md:grid-cols-[1fr_2px_1fr] items-center">
                   {/* LEFT */}
                   <div className="flex justify-end md:pr-8">
                     {isLeft && (
@@ -728,26 +752,9 @@ function ExperienceSection() {
                     )}
                   </div>
 
-                  {/* CENTER */}
-                  <div className="flex flex-col items-center justify-center py-2">
-                    <div className="hidden md:flex items-center justify-center w-full">
-                      <div
-                        className={`w-6 h-[2px] bg-foreground/10 ${
-                          isLeft ? "mr-1" : "opacity-0"
-                        }`}
-                      />
-                      <div className="w-10 flex items-center justify-center">
-                        <div className="w-4 h-4 rounded-full bg-primary z-10 shadow" />
-                      </div>
-                      <div
-                        className={`w-6 h-[2px] bg-foreground/10 ${
-                          !isLeft ? "ml-1" : "opacity-0"
-                        }`}
-                      />
-                    </div>
-                    <div className="md:hidden w-full flex justify-center">
-                      <div className="h-1 w-12 bg-foreground/10 rounded-full" />
-                    </div>
+                  {/* CENTER (line + dot) */}
+                  <div className="flex flex-col items-center justify-center relative py-2">
+                    <div className="w-4 h-4 rounded-full bg-primary z-10 shadow" />
                   </div>
 
                   {/* RIGHT */}
@@ -784,46 +791,59 @@ function ExperienceSection() {
           })}
 
           {/* LAST ITEM */}
-          {last && (
-            <div
-              data-index={lastIndex}
-              ref={(el) => {
-                if (el) observerRefs.current[lastIndex] = el;
-              }}
-              className="relative"
-            >
-              <div className="grid grid-cols-1 md:grid-cols-[1fr_72px_1fr] items-center">
-                <div className="hidden md:block" />
+{last && (
+  <div
+    data-index={lastIndex}
+    ref={(el) => {
+      if (el) observerRefs.current[lastIndex] = el;
+    }}
+    className="relative"
+  >
+    <div className="grid grid-cols-1 md:grid-cols-[1fr_2px_1fr] items-center">
+      <div className="hidden md:block" />
 
-                <div className="flex items-center justify-center py-2">
-                  <div className="w-10 flex items-center justify-center">
-                    <div className="relative w-4 h-4">
-                      <div className="absolute w-4 h-4 rounded-full bg-primary" />
-                      <motion.div
-                        className="absolute w-4 h-4 rounded-full border-2 border-primary"
-                        animate={{ scale: [1, 4.5], opacity: [0, 0.7, 0] }}
-                        transition={{
-                          duration: 3,
-                          repeat: Infinity,
-                          ease: "linear",
-                        }}
-                      />
-                      <motion.div
-                        className="absolute w-4 h-4 rounded-full border-2 border-primary"
-                        animate={{ scale: [1, 4.5], opacity: [0, 0.7, 0] }}
-                        transition={{
-                          duration: 3,
-                          repeat: Infinity,
-                          ease: "linear",
-                          delay: 1.5,
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
+      <div className="flex items-center justify-center py-2">
+        {/* Fixed: Proper centering with flex container */}
+        <div className="relative flex items-center justify-center">
+          <div className="w-4 h-4 rounded-full bg-primary z-20 shadow" />
+          
+          {/* Ripple animations - positioned to center on the dot */}
+          <motion.div
+            className="absolute w-4 h-4 rounded-full border-2 border-primary z-10"
+            style={{ 
+              top: '0%',
+              left: '0%',
+              transformOrigin: 'center',
+              transform: 'translate(-50%, -50%)'
+            }}
+            animate={{ scale: [1, 4.5], opacity: [0, 0.7, 0] }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+          <motion.div
+            className="absolute w-4 h-4 rounded-full border-2 border-primary z-10"
+            style={{ 
+              top: '0%',
+              left: '0%',
+              transformOrigin: 'center',
+              transform: 'translate(-50%, -50%)'
+            }}
+            animate={{ scale: [1, 4.5], opacity: [0, 0.7, 0] }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "linear",
+              delay: 1.5,
+            }}
+          />
+        </div>
+      </div>
 
-                <div className="hidden md:block" />
-              </div>
+      <div className="hidden md:block" />
+    </div>
 
               <div className="w-full flex justify-center mt-10 md:mt-8">
                 <motion.div
@@ -838,9 +858,7 @@ function ExperienceSection() {
                       : "hover:scale-[1.03] hover:shadow-xl transition-transform duration-300"
                   }`}
                 >
-                  <p className="text-sm text-foreground/60 mb-1">
-                    {last.period}
-                  </p>
+                  <p className="text-sm text-foreground/60 mb-1">{last.period}</p>
                   <h3 className="text-xl font-bold">{last.role}</h3>
                   <p className="text-primary font-semibold">{last.company}</p>
                   <p className="text-foreground/70 mt-2">{last.description}</p>
@@ -858,8 +876,8 @@ const ContactSection = () => {
   return (
     <section id="contact" className="py-24 px-6">
       <div className="container mx-auto max-w-2xl text-center">
-        <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
-        <p className="text-foreground/70 mb-8">
+        <h2 className="frosted-text text-4xl font-bold mb-4">Get In Touch</h2>
+        <p className="frosted-text text-foreground/70 mb-8">
           I&apos;m currently open to new opportunities and collaborations. If
           you have a project in mind or just want to connect, feel free to reach
           out.
@@ -994,79 +1012,161 @@ const Footer = () => {
 const ScrollToTopButton = () => {
   const [visible, setVisible] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const [bottomOffset, setBottomOffset] = useState(32); // px from bottom
+  const [bottomOffset, setBottomOffset] = useState(32);
+  const { scrollToTop } = useLenisScroll();
 
   useEffect(() => {
     const onScroll = () => {
       setVisible(window.scrollY > window.innerHeight * 0.5);
 
-      // Check for footer intersection
+      // Improved footer intersection logic
       const footer = document.querySelector("footer");
       if (footer) {
         const footerRect = footer.getBoundingClientRect();
-        const overlap = Math.max(0, window.innerHeight - footerRect.top + 16);
-        setBottomOffset(overlap ? overlap : 32);
+        const viewportHeight = window.innerHeight;
+        const buttonHeight = 56; // Approximate button height with padding
+        const buffer = 24;
+        
+        if (footerRect.top <= viewportHeight) {
+          // Calculate how much the button should move up
+          const footerVisible = viewportHeight - footerRect.top;
+          const newOffset = Math.max(32, footerVisible + buffer);
+          setBottomOffset(newOffset);
+        } else {
+          setBottomOffset(32);
+        }
       }
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll(); // initial check
-    return () => window.removeEventListener("scroll", onScroll);
+    // Use throttled scroll for better performance
+    let timeoutId: NodeJS.Timeout;
+    const throttledScroll = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(onScroll, 16); // ~60fps
+    };
+
+    window.addEventListener("scroll", throttledScroll, { passive: true });
+    onScroll(); // Initial check
+    
+    return () => {
+      window.removeEventListener("scroll", throttledScroll);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
-  const smoothScrollToTop = (duration = 600) => {
-    const start = window.scrollY;
-    const startTime = performance.now();
-    const easeInOutCubic = (t: number) =>
-      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-    const step = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(1, elapsed / duration);
-      const eased = easeInOutCubic(progress);
-      window.scrollTo(0, Math.round(start * (1 - eased)));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  };
-
   const handleClick = () => {
-    // Fixed the any type
-    const lenis = (window as { lenis?: { scrollTo: (target: number) => void } }).lenis;
-    if (lenis?.scrollTo) {
-      lenis.scrollTo(0);
+    if (scrollToTop) {
+      scrollToTop({
+        duration: 0.5, // Slightly longer for ultra-smooth feel
+        easing: (t: number) => {
+          // Very smooth ease-out
+          return 1 - Math.pow(1 - t, 3);
+        }
+      });
     } else {
-      smoothScrollToTop(700);
+      // Enhanced fallback with even smoother animation
+      const start = window.scrollY;
+      const startTime = performance.now();
+      const duration = 1800;
+
+      const smoothEase = (t: number) => {
+        // Sine ease-out for very natural feeling
+        return Math.sin((t * Math.PI) / 2);
+      };
+
+      const animate = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = smoothEase(progress);
+        
+        window.scrollTo(0, Math.round(start * (1 - eased)));
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      };
+      
+      requestAnimationFrame(animate);
     }
   };
 
   return (
     <AnimatePresence>
       {visible && (
-        <motion.button
-          onClick={handleClick}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 40 }}
-          transition={{ type: "spring", stiffness: 260, damping: 25 }}
-          className="fixed right-6 z-50 p-3 rounded-full glass shadow-lg focus:outline-none ring-0"
-          style={{
-            bottom: bottomOffset,
-            cursor: hovered ? "pointer" : "default",
+        <motion.div
+          className="fixed right-6 z-50"
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: 1,
+            bottom: bottomOffset
+          }}
+          exit={{ opacity: 0 }}
+          transition={{ 
+            opacity: { duration: 0.2, ease: "easeInOut" },
+            bottom: { 
+              type: "spring", 
+              stiffness: 300, 
+              damping: 30,
+              mass: 0.8
+            }
           }}
         >
-          <ArrowUp className="h-5 w-5 text-gray-700 dark:text-gray-300" />
-        </motion.button>
+          {/* Rest of your button JSX remains the same */}
+          <motion.button
+            onClick={handleClick}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            initial={{ y: 40, scale: 0.5, rotate: -45 }}
+            animate={{ y: 0, scale: 1, rotate: 0 }}
+            exit={{ y: 40, scale: 0.5, rotate: 45 }}
+            transition={{
+              type: "spring",
+              stiffness: 400,
+              damping: 25,
+              mass: 0.8
+            }}
+            whileHover={{
+              scale: 1.1,
+              y: -3,
+              boxShadow: "0 15px 30px rgba(0, 0, 0, 0.2)",
+              transition: { type: "spring", stiffness: 500, damping: 20 }
+            }}
+            whileTap={{
+              scale: 0.9,
+              transition: { type: "spring", stiffness: 700, damping: 30 }
+            }}
+            className="p-4 rounded-full glass shadow-lg focus:outline-none ring-0 group backdrop-blur-md border border-white/10"
+          >
+            <motion.div
+              animate={{
+                rotate: hovered ? 360 : 0,
+                y: hovered ? -1 : 0,
+                transition: { duration: 0.3, ease: "easeInOut" }
+              }}
+            >
+              <ArrowUp className="h-5 w-5 text-foreground group-hover:text-primary transition-colors duration-200" />
+            
+            </motion.div>
+            
+            {hovered && (
+              <motion.div
+                initial={{ scale: 0, opacity: 0.6 }}
+                animate={{ scale: 1.8, opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="absolute inset-0 rounded-full border-2 border-primary/40"
+              />
+            )}
+          </motion.button>
+        </motion.div>
       )}
     </AnimatePresence>
   );
 };
 
+
 export default function Landing() {
   // Removed unused theme and themeValue variables completely
-  
+
   return (
     <main className="relative">
       {/* Cursor, ScrollProgressBar, ThemeToggleButton, BackgroundCanvas */}
