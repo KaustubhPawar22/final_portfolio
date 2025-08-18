@@ -1,16 +1,29 @@
 "use client";
 import { useEffect } from "react";
-import useFluidCursor from "@/hooks/use-FluidCursor";
+import fluidCursor from "@/hooks/use-FluidCursor";
 
 const Cursor = () => {
   useEffect(() => {
-    useFluidCursor();
+    // Call the fluid cursor initialization function
+    const cleanup = fluidCursor();
+    
+    // Return cleanup function if provided
+    return cleanup;
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 z-0">
-      <canvas id="fluid" className="fixed top-0 left-0 w-full h-full -z-10" />
-    </div>
+    <canvas
+      id="fluid"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
+        zIndex: 0,
+      }}
+    />
   );
 };
 

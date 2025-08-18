@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useThree } from "@react-three/fiber";
-import { useRef, useMemo, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 
 const vertexShader = `
@@ -33,24 +33,22 @@ const ShaderPlane = ({ themeValue }: { themeValue: number }) => {
   }, [themeValue]);
 
   return (
-    <mesh scale={[viewport.width, viewport.height, 1]}>
-      <planeGeometry args={[1, 1]} />
+    <mesh>
+      <planeGeometry args={[viewport.width, viewport.height]} />
       <shaderMaterial
         ref={materialRef}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
-        uniforms={{
-          u_theme: { value: themeValue },
-        }}
+        uniforms={{ u_theme: { value: themeValue } }}
       />
     </mesh>
   );
 };
 
 export default function BackgroundCanvas() {
-  const [themeValue, setThemeValue] = useState<number>(
+  const [themeValue, setThemeValue] = useState(
     typeof window !== "undefined" &&
-      document.documentElement.classList.contains("dark")
+    document.documentElement.classList.contains("dark")
       ? 1
       : 0
   );
@@ -71,18 +69,7 @@ export default function BackgroundCanvas() {
   }, []);
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        zIndex: -1,
-        pointerEvents: "none",
-        background: "transparent",
-      }}
-    >
+    <div className="fixed inset-0 -z-10">
       <Canvas>
         <ShaderPlane themeValue={themeValue} />
       </Canvas>

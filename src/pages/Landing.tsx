@@ -9,7 +9,7 @@ import {
   Variants,
 } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { TypeAnimation } from "react-type-animation";
+// import { TypeAnimation } from "react-type-animation";
 import {
   Github,
   Linkedin,
@@ -21,8 +21,7 @@ import {
   BarChart2,
   BrainCircuit,
   Code,
-  Clipboard,
-  Phone,
+  Clipboard
 } from "lucide-react";
 import Lottie from "lottie-react";
 import wavingHand from "@/assets/hand_wave.json";
@@ -30,11 +29,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import Lenis from "lenis";
-import BackgroundCanvas from "@/components/effects/BackgroundCanvas";
-import useMousePosition from "@/hooks/use-mouse-position";
-import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+// import Lenis from "lenis";
+// import BackgroundCanvas from "@/components/effects/BackgroundCanvas";
+// import useMousePosition from "@/hooks/use-mouse-position";
+// import { toast } from "sonner";
+// import { Loader2 } from "lucide-react";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import Cursor from "@/components/effects/Cursor";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
@@ -517,7 +516,7 @@ const StickyProjectCard = ({
 }: {
   project: (typeof projects)[0];
   index: number;
-  scrollYProgress: any;
+  scrollYProgress: import('framer-motion').MotionValue<number>; // Fixed the any type
   total: number;
 }) => {
   const scale = useTransform(
@@ -902,6 +901,7 @@ const ContactSection = () => {
     </section>
   );
 };
+
 const Footer = () => {
   const email = "kaustubhpawar500@gmail.com";
   const [copied, setCopied] = useState(false);
@@ -1031,7 +1031,8 @@ const ScrollToTopButton = () => {
   };
 
   const handleClick = () => {
-    const lenis = (window as any).lenis;
+    // Fixed the any type
+    const lenis = (window as { lenis?: { scrollTo: (target: number) => void } }).lenis;
     if (lenis?.scrollTo) {
       lenis.scrollTo(0);
     } else {
@@ -1043,7 +1044,6 @@ const ScrollToTopButton = () => {
     <AnimatePresence>
       {visible && (
         <motion.button
-          aria-label="Scroll to top"
           onClick={handleClick}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
@@ -1057,17 +1057,7 @@ const ScrollToTopButton = () => {
             cursor: hovered ? "pointer" : "default",
           }}
         >
-          <motion.div
-            animate={hovered ? { y: [0, -6, 0] } : { y: 0 }}
-            transition={
-              hovered
-                ? { duration: 0.6, repeat: Infinity, ease: "easeInOut" }
-                : { duration: 0 }
-            }
-            className="flex items-center justify-center"
-          >
-            <ArrowUp className="w-5 h-5 text-foreground" />
-          </motion.div>
+          <ArrowUp className="h-5 w-5 text-gray-700 dark:text-gray-300" />
         </motion.button>
       )}
     </AnimatePresence>
@@ -1075,37 +1065,25 @@ const ScrollToTopButton = () => {
 };
 
 export default function Landing() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-  const [themeValue, setThemeValue] = useState(0);
-
-  // Client-side only theme initialization
-  useEffect(() => {
-    const isDark =
-      typeof window !== "undefined" &&
-      document.documentElement.classList.contains("dark");
-    setTheme(isDark ? "dark" : "light");
-    setThemeValue(isDark ? 1 : 0);
-  }, []);
-
+  // Removed unused theme and themeValue variables completely
+  
   return (
-    <div className="min-h-screen relative">
+    <main className="relative">
       {/* Cursor, ScrollProgressBar, ThemeToggleButton, BackgroundCanvas */}
       <Cursor />
       <ScrollProgressBar />
       <ThemeToggleButton />
       {/* <BackgroundCanvas /> */}
 
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <ExperienceSection />
-        <ContactSection />
-      </main>
+      <HeroSection />
+      <AboutSection />
+      <SkillsSection />
+      <ProjectsSection />
+      <ExperienceSection />
+      <ContactSection />
+      <Footer />
 
       <ScrollToTopButton />
-      <Footer />
-    </div>
+    </main>
   );
 }
