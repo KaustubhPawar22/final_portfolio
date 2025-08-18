@@ -42,8 +42,8 @@ import Image from "next/image";
 import { destroyLenis, initLenis } from "@/lib/lenis";
 
 const HeroSection = () => {
-   const { scrollTo } = useLenisScroll();
-   
+  const { scrollTo } = useLenisScroll();
+
   return (
     <section
       id="home"
@@ -78,8 +78,9 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          I translate complex data into compelling narratives that drive
-          strategic growth and create business value.
+          Kuch nahi yaha filhal
+          {/* I translate complex data into compelling narratives that drive
+          strategic growth and create business value. */}
         </motion.p>
 
         {/* Buttons */}
@@ -109,7 +110,7 @@ const HeroSection = () => {
             size="lg"
             className="glass-card hover:scale-105 transition-transform"
           >
-            <a href="/assets/resume.pdf" download>
+            <a href="/resume.gif" download>
               Resume <Download className="w-4 h-4 ml-2" />
             </a>
           </Button>
@@ -232,16 +233,21 @@ const AboutSection = () => {
           <p className="text-lg text-foreground/70 mb-6 leading-relaxed">
             A Computer Science graduate with a strong foundation in analytics,
             passionate about bridging the gap between data and business
-            strategy. Currently preparing to join Warwick Business School for an
+            strategy. Itne gor se tera syllabus padhle bhai.
+            {/* Currently preparing to join Warwick Business School for an
             MSc in Business Analytics. Skilled in data storytelling, dashboard
             development, and uncovering insights that influence real-world
-            outcomes.
+            outcomes. */}
           </p>
           <p className="text-lg text-foreground/70 mb-6 leading-relaxed">
-            I have a curious mind with a love for translating data into
+            Dosa Idli Sambar Chutney Chutney Dosai
+            Idli Sambar Chatni Chatni Thaedi Pudicha Hotel-La Vaanginu Vandhen
+            Paarsal Nalla Hotel Theriyala Vaanginu Vandhadhu Sariyilla Dosa Idli
+            Sambar Chutney Chutney Dosai Idli Sambar Chatni Chatni
+            {/*I have a curious mind with a love for translating data into
             narratives that inspire action. My professional values are rooted in
             insight-driven decision-making, clear communication, and continuous
-            learning.
+            learning. */}
           </p>
         </motion.div>
 
@@ -442,45 +448,40 @@ const SkillsSection = () => {
 
 const projects = [
   {
-    title: "Stack Overflow Trend Analysis",
+    title: "Project Alpha",
     description:
-      "Analysed Stack Overflow data to identify trends in technology adoption. Identified top technologies, co-occurrence patterns, and predicted future trends.",
+      "A cutting-edge project exploring new technologies and innovative solutions in a simulated environment.",
     image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
-    tags: ["Python", "Pandas", "Tableau", "Stack Exchange API"],
-    link: "https://github.com/kaustubh-pawar",
-  },
-  {
-    title: "Zomato Campus Pass Case Study",
-    description:
-      "A business case study involving market sizing, designing a pricing strategy, and modeling CAC vs LTV for a new student-focused product.",
-    image:
-      "https://images.unsplash.com/photo-1592861956120-e524fc739696?w=600&h=400&fit=crop",
-    tags: [
-      "Market Sizing",
-      "Pricing Strategy",
-      "CAC/LTV Analysis",
-      "Business Modelling",
-    ],
+      "https://images.unsplash.com/photo-1581091012184-7b4f9f9c9b6c?w=600&h=400&fit=crop",
+    tags: ["Technology", "Innovation", "Simulation"],
     link: "#",
   },
   {
-    title: "Vax-Tracker (Android App)",
+    title: "Project Beta",
     description:
-      "Developed an Android app to track vaccination schedules and provide reminders, integrating Firebase for real-time data storage and management.",
+      "A business analysis project that focuses on market trends, user behavior, and strategic decision-making.",
     image:
-      "https://images.unsplash.com/photo-1609942593439-53948af4375c?w=600&h=400&fit=crop",
-    tags: ["Android", "Firebase", "Java"],
-    link: "https://github.com/kaustubh-pawar",
+      "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=600&h=400&fit=crop",
+    tags: ["Business", "Analytics", "Market Research"],
+    link: "#",
   },
   {
-    title: "Secure Chat (Mobile App)",
+    title: "Project Gamma",
     description:
-      "Built a secure messaging app using React Native and AWS, implementing encryption for data security. Gained experience in data handling and system integration.",
+      "A mobile app prototype designed to improve user experience and provide real-time notifications.",
     image:
-      "https://images.unsplash.com/photo-1591696331111-8957a7414fed?w=600&h=400&fit=crop",
-    tags: ["React Native", "AWS", "Encryption", "Security"],
-    link: "https://github.com/kaustubh-pawar",
+      "https://images.unsplash.com/photo-1581093448793-6b44d7d676b2?w=600&h=400&fit=crop",
+    tags: ["Mobile App", "UI/UX", "Notifications"],
+    link: "#",
+  },
+  {
+    title: "Project Delta",
+    description:
+      "A secure messaging application that demonstrates encryption and cloud integration for safe communication.",
+    image:
+      "https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?w=600&h=400&fit=crop",
+    tags: ["Security", "Cloud", "Encryption"],
+    link: "#",
   },
 ];
 
@@ -595,13 +596,6 @@ type Experience = {
 };
 
 const EXPERIENCES: Experience[] = [
-  // {
-  //   role: "High School",
-  //   company: "CGHS",
-  //   period: "Graduated May 2020",
-  //   description:
-  //     "Graduated with a B.Sc. in Computer Science, achieving an 8.75/10.0 GPA. Developed a strong foundation in programming, data structures, and algorithms through rigorous coursework and practical projects.",
-  // },
   {
     role: "B.Sc. Computer Science",
     company: "D.G. Ruparel College",
@@ -617,11 +611,11 @@ const EXPERIENCES: Experience[] = [
       "Resolved complex technical issues for customers across a wide range of products, including domains, DNS, and web hosting. Collaborated with engineering and product teams to identify and address root causes of customer problems. Recognized for outstanding performance with MVP and Manager's awards.",
   },
   {
-    role: "MSc Business Analytics",
-    company: "Warwick Business School",
-    period: "Offer Accepted, Starts Sep 2025",
+    role: "ITUS",
+    company: "Laxmi Chit Fund",
+    period: "2025 - current",
     description:
-      "Accepted an offer to pursue an MSc in Business Analytics at Warwick Business School. Eager to deepen my expertise in data analytics, machine learning, and their application to strategic business challenges.",
+      "ITUS - International Talent of Ultimate Student is a degree which very few ultimately talented individuals are awarded. ITUS, also known as international talent of ultimate student is an extremely rigorous degree which can only be obtained by extremely competent students.",
   },
 ];
 
