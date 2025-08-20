@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://kaustubhpawar.com/sitemap.xml
+
+# Block admin areas
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Allow specific images
+Allow: /_next/image
+Allow: /_next/static

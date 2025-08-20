@@ -22,6 +22,7 @@ import {
   BrainCircuit,
   Code,
   Clipboard,
+  Loader2, Send, CheckCircle, AlertCircle
 } from "lucide-react";
 import Lottie from "lottie-react";
 import wavingHand from "@/assets/hand_wave.json";
@@ -40,6 +41,8 @@ import Cursor from "@/components/effects/Cursor";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
 import Image from "next/image";
 import { destroyLenis, initLenis } from "@/lib/lenis";
+import ContactForm from '@/components/ContactForm';
+import { z } from 'zod';
 
 const HeroSection = () => {
   const { scrollTo } = useLenisScroll();
@@ -870,51 +873,7 @@ function ExperienceSection() {
 }
 
 const ContactSection = () => {
-  return (
-    <section id="contact" className="py-24 px-6">
-      <div className="container mx-auto max-w-2xl text-center">
-        <h2 className="frosted-text text-4xl font-bold mb-4">Get In Touch</h2>
-        <p className="frosted-text text-foreground/70 mb-8">
-          I&apos;m currently open to new opportunities and collaborations. If
-          you have a project in mind or just want to connect, feel free to reach
-          out.
-        </p>
-
-        <motion.div
-          className="glass-card p-12 space-y-8 rounded-3xl"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <div className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <Input
-                placeholder="Your Name"
-                className="glass border-foreground/20 focus:border-primary py-8 px-6 text-xl rounded-3xl w-full shadow-inner hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-shadow duration-300 min-h-[64px]"
-              />
-              <Input
-                type="email"
-                placeholder="Your Email"
-                className="glass border-foreground/20 focus:border-primary py-8 px-6 text-xl rounded-3xl w-full shadow-inner hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-shadow duration-300 min-h-[64px]"
-              />
-            </div>
-            <Textarea
-              placeholder="Your Message"
-              rows={6}
-              className="glass border-foreground/20 focus:border-primary resize-none py-8 px-6 text-xl rounded-3xl w-full shadow-inner hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-shadow duration-300 min-h-[128px]"
-            />
-            <Button
-              size="lg"
-              className="w-full button-glass hover:scale-105 transition-transform"
-            >
-              Send Message
-            </Button>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
+  return <ContactForm />;
 };
 
 const Footer = () => {

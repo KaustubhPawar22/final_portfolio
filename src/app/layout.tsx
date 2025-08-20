@@ -23,14 +23,24 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Kaustubh Pawar | Data Analytics & Business Intelligence Professional",
-  description: "Computer Science graduate specializing in data-driven business insights, dashboard development, and strategic analytics. Experienced in Tableau, Python, SQL, and business intelligence solutions.",
-  keywords: ["Data Analytics", "Business Intelligence", "Tableau", "Python", "SQL", "Dashboard Development", "Business Strategy"],
+  description:
+    "Computer Science graduate specializing in data-driven business insights, dashboard development, and strategic analytics. Experienced in Tableau, Python, SQL, and business intelligence solutions.",
+  keywords: [
+    "Data Analytics",
+    "Business Intelligence",
+    "Tableau",
+    "Python",
+    "SQL",
+    "Dashboard Development",
+    "Business Strategy",
+  ],
   authors: [{ name: "Kaustubh Pawar", url: "https://kaustubhpawar.com" }],
   creator: "Kaustubh Pawar",
   metadataBase: new URL("https://kaustubhpawar.com"),
   openGraph: {
     title: "Kaustubh Pawar | Data Analytics Professional",
-    description: "Computer Science graduate specializing in data-driven business insights and strategic analytics",
+    description:
+      "Computer Science graduate specializing in data-driven business insights and strategic analytics",
     url: "https://kaustubhpawar.com",
     siteName: "Kaustubh Pawar Portfolio",
     images: [
@@ -47,7 +57,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Kaustubh Pawar | Data Analytics Professional",
-    description: "Computer Science graduate specializing in data-driven business insights",
+    description:
+      "Computer Science graduate specializing in data-driven business insights",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -56,9 +67,9 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
 };
@@ -69,8 +80,52 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${geistSans.variable} ${geistMono.variable}`}
+    >
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Kaustubh Pawar",
+              url: "https://kaustubhpawar.com",
+              jobTitle: "Data Analytics & Business Intelligence Professional",
+              description:
+                "Computer Science graduate specializing in data-driven business insights, dashboard development, and strategic analytics.",
+              alumniOf: {
+                "@type": "EducationalOrganization",
+                name: "D.G. Ruparel College",
+              },
+              hasOccupation: {
+                "@type": "Occupation",
+                name: "Data Analyst",
+                occupationLocation: {
+                  "@type": "Place",
+                  name: "Mumbai, India",
+                },
+              },
+              knowsAbout: [
+                "Data Analytics",
+                "Business Intelligence",
+                "Tableau",
+                "Power BI",
+                "Python",
+                "SQL",
+                "Dashboard Development",
+              ],
+              email: "kaustubhpawar500@gmail.com",
+              sameAs: [
+                "https://linkedin.com/in/kaustubh-pawar",
+                "https://github.com/KaustubhPawar22",
+                "https://public.tableau.com/profile/kaustubh.pawar",
+              ],
+            }),
+          }}
+        />
         {/* ✅ ADD: Preload critical fonts */}
         <link
           rel="preload"
@@ -80,9 +135,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className={`${inter.className} antialiased`}>
-        {children}
-      </body>
+      <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   );
 }
