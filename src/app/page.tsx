@@ -7,7 +7,7 @@ import { initLenis, destroyLenis } from '@/lib/lenis';
 
 export default function Page() {
     useEffect(() => {
-    const lenisInstance = initLenis();
+    const _enisInstance = initLenis();
     
     return () => {
       destroyLenis();
