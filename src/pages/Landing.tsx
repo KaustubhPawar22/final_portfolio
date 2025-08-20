@@ -233,21 +233,16 @@ const AboutSection = () => {
           <p className="text-lg text-foreground/70 mb-6 leading-relaxed">
             A Computer Science graduate with a strong foundation in analytics,
             passionate about bridging the gap between data and business
-            strategy. Itne gor se tera syllabus padhle bhai.
-            {/* Currently preparing to join Warwick Business School for an
+            strategy. Currently preparing to join Warwick Business School for an
             MSc in Business Analytics. Skilled in data storytelling, dashboard
             development, and uncovering insights that influence real-world
-            outcomes. */}
+            outcomes.
           </p>
           <p className="text-lg text-foreground/70 mb-6 leading-relaxed">
-            Dosa Idli Sambar Chutney Chutney Dosai
-            Idli Sambar Chatni Chatni Thaedi Pudicha Hotel-La Vaanginu Vandhen
-            Paarsal Nalla Hotel Theriyala Vaanginu Vandhadhu Sariyilla Dosa Idli
-            Sambar Chutney Chutney Dosai Idli Sambar Chatni Chatni
-            {/*I have a curious mind with a love for translating data into
+            I have a curious mind with a love for translating data into
             narratives that inspire action. My professional values are rooted in
             insight-driven decision-making, clear communication, and continuous
-            learning. */}
+            learning.
           </p>
         </motion.div>
 
@@ -611,11 +606,11 @@ const EXPERIENCES: Experience[] = [
       "Resolved complex technical issues for customers across a wide range of products, including domains, DNS, and web hosting. Collaborated with engineering and product teams to identify and address root causes of customer problems. Recognized for outstanding performance with MVP and Manager's awards.",
   },
   {
-    role: "ITUS",
-    company: "Laxmi Chit Fund",
-    period: "2025 - current",
+    role: "M.Sc. Business Analytics",
+    company: "Warwick Business School",
+    period: "Starts September 2025",
     description:
-      "ITUS - International Talent of Ultimate Student is a degree which very few ultimately talented individuals are awarded. ITUS, also known as international talent of ultimate student is an extremely rigorous degree which can only be obtained by extremely competent students.",
+      "Incoming postgraduate student in Business Analytics, focusing on data-driven decision making, statistical modeling, and business strategy.",
   },
 ];
 
@@ -687,7 +682,7 @@ function ExperienceSection() {
   useEffect(() => {
     if (containerRef.current) {
       // Adjust this subtraction if you change top offset of the line
-      const height = containerRef.current.offsetHeight - 440; // 5.5rem = 88px
+      const height = containerRef.current.offsetHeight - 390; // 5.5rem = 88px
       setLineHeight(height > 0 ? height : 0);
     }
   }, [items.length]);
