@@ -1,6 +1,5 @@
 "use client"
 
-// app/page.tsx
 import Landing from "@/pages/Landing";
 import { useEffect } from 'react';
 import { initLenis, destroyLenis } from '@/lib/lenis';

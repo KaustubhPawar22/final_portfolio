@@ -1,4 +1,3 @@
-// /src/pages/Landing.tsx
 "use client";
 
 import {
@@ -9,7 +8,6 @@ import {
   Variants,
 } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-// import { TypeAnimation } from "react-type-animation";
 import {
   Github,
   Linkedin,
@@ -22,27 +20,18 @@ import {
   BrainCircuit,
   Code,
   Clipboard,
-  Loader2, Send, CheckCircle, AlertCircle
 } from "lucide-react";
 import Lottie from "lottie-react";
 import wavingHand from "@/assets/hand_wave.json";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useLenisScroll } from "@/hooks/useLenisScroll";
-// import Lenis from "lenis";
-// import BackgroundCanvas from "@/components/effects/BackgroundCanvas";
-// import useMousePosition from "@/hooks/use-mouse-position";
-// import { toast } from "sonner";
-// import { Loader2 } from "lucide-react";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import Cursor from "@/components/effects/Cursor";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
 import Image from "next/image";
 import { destroyLenis, initLenis } from "@/lib/lenis";
-import ContactForm from '@/components/ContactForm';
-import { z } from 'zod';
+import ContactForm from "@/components/ContactForm";
 
 const HeroSection = () => {
   const { scrollTo } = useLenisScroll();
@@ -225,9 +214,10 @@ const AboutSection = () => {
       <div className="container mx-auto grid md:grid-cols-2 gap-12 items-center">
         {/* LEFT SIDE - ABOUT TEXT */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
+          initial="hidden"
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.001 }} /* snappy like buttons/focus chips */
           viewport={{ once: true }}
           className="glass-card max-w-4xl mx-auto p-8 sm:p-8"
         >
@@ -365,9 +355,10 @@ const SkillsSection = () => {
         <div className="grid md:grid-cols-3 gap-8">
           {/* Technical */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial="hidden"
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.01 }}
             viewport={{ once: true }}
             className="glass-card p-6 rounded-2xl"
           >
@@ -390,9 +381,10 @@ const SkillsSection = () => {
 
           {/* Business */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial="hidden"
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.01 }}
             viewport={{ once: true }}
             className="glass-card p-6 rounded-2xl"
           >
@@ -415,9 +407,10 @@ const SkillsSection = () => {
 
           {/* Soft */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial="hidden"
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.01 }}
             viewport={{ once: true }}
             className="glass-card p-6 rounded-2xl"
           >
@@ -622,18 +615,18 @@ function extractYear(period: string) {
   return m ? parseInt(m[0], 10) : 9999;
 }
 
-/* ---------- motion variants ---------- */
+/* ---------- motion variants (no opacity in hidden/visible) ---------- */
 const leftVariant: Variants = {
-  hidden: { opacity: 0, x: -36 },
-  visible: { opacity: 1, x: 0 },
+  hidden: { x: -36 },
+  visible: { x: 0 },
 };
 const rightVariant: Variants = {
-  hidden: { opacity: 0, x: 36 },
-  visible: { opacity: 1, x: 0 },
+  hidden: { x: 36 },
+  visible: { x: 0 },
 };
 const upVariant: Variants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0 },
+  hidden: { y: 28 },
+  visible: { y: 0 },
 };
 
 function ExperienceSection() {
@@ -725,16 +718,17 @@ function ExperienceSection() {
                   <div className="flex justify-end md:pr-8">
                     {isLeft && (
                       <motion.div
+                        initial={false} // avoid initial hidden frame
                         variants={variant}
-                        initial="hidden"
                         animate={animateState}
                         transition={{ duration: 0.55, delay: idx * 0.06 }}
                         onClick={() => handleTap(globalIndex)}
-                        className={`glass-card max-w-[360px] w-full p-6 md:p-8 rounded-2xl text-right cursor-pointer z-10 ${
-                          activeTap === globalIndex
-                            ? "scale-105 shadow-2xl"
-                            : "hover:scale-[1.03] hover:shadow-xl transition-transform duration-300"
-                        }`}
+                        className={`glass-card will-change-transform will-change-filter [backface-visibility:hidden] [transform:translateZ(0)]
+                          max-w-[360px] w-full p-6 md:p-8 rounded-2xl text-right cursor-pointer z-10 ${
+                            activeTap === globalIndex
+                              ? "scale-105 shadow-2xl"
+                              : "hover:scale-[1.03] hover:shadow-xl transition-transform duration-300"
+                          }`}
                       >
                         <p className="text-sm text-foreground/60 mb-1">
                           {exp.period}
@@ -759,16 +753,17 @@ function ExperienceSection() {
                   <div className="flex justify-start md:pl-8">
                     {!isLeft && (
                       <motion.div
+                        initial={false} // avoid initial hidden frame
                         variants={variant}
-                        initial="hidden"
                         animate={animateState}
                         transition={{ duration: 0.55, delay: idx * 0.06 }}
                         onClick={() => handleTap(globalIndex)}
-                        className={`glass-card max-w-[360px] w-full p-6 md:p-8 rounded-2xl text-left cursor-pointer z-10 ${
-                          activeTap === globalIndex
-                            ? "scale-105 shadow-2xl"
-                            : "hover:scale-[1.03] hover:shadow-xl transition-transform duration-300"
-                        }`}
+                        className={`glass-card will-change-transform will-change-filter [backface-visibility:hidden] [transform:translateZ(0)]
+                          max-w-[360px] w-full p-6 md:p-8 rounded-2xl text-left cursor-pointer z-10 ${
+                            activeTap === globalIndex
+                              ? "scale-105 shadow-2xl"
+                              : "hover:scale-[1.03] hover:shadow-xl transition-transform duration-300"
+                          }`}
                       >
                         <p className="text-sm text-foreground/60 mb-1">
                           {exp.period}
@@ -801,7 +796,7 @@ function ExperienceSection() {
                 <div className="hidden md:block" />
 
                 <div className="flex items-center justify-center py-2">
-                  {/* Fixed: Proper centering with flex container */}
+                  {/* Proper centering with flex container */}
                   <div className="relative flex items-center justify-center">
                     <div className="w-4 h-4 rounded-full bg-primary z-20 shadow" />
 
@@ -845,16 +840,17 @@ function ExperienceSection() {
 
               <div className="w-full flex justify-center mt-10 md:mt-8">
                 <motion.div
+                  initial={false} // avoid initial hidden frame
                   variants={upVariant}
-                  initial="hidden"
-                  animate={visibleIndex >= lastIndex ? "visible" : "hidden"}
+                  animate={visibleIndex >= lastIndex ? "visible" : undefined}
                   transition={{ duration: 0.55, delay: lastIndex * 0.06 }}
                   onClick={() => handleTap(lastIndex)}
-                  className={`glass-card max-w-[360px] w-full p-6 md:p-8 rounded-2xl text-center relative z-10 cursor-pointer ${
-                    activeTap === lastIndex
-                      ? "scale-105 shadow-2xl"
-                      : "hover:scale-[1.03] hover:shadow-xl transition-transform duration-300"
-                  }`}
+                  className={`glass-card will-change-transform will-change-filter [backface-visibility:hidden] [transform:translateZ(0)]
+                    max-w-[360px] w-full p-6 md:p-8 rounded-2xl text-center relative z-10 cursor-pointer ${
+                      activeTap === lastIndex
+                        ? "scale-105 shadow-2xl"
+                        : "hover:scale-[1.03] hover:shadow-xl transition-transform duration-300"
+                    }`}
                 >
                   <p className="text-sm text-foreground/60 mb-1">
                     {last.period}
@@ -896,12 +892,10 @@ const Footer = () => {
           title="Click to copy email to clipboard"
         >
           <Clipboard className="w-5 h-5 text-foreground group-hover:text-primary transition-colors" />
-          <span className="group-hover:text-primary">Clipboard</span>
-
           {/* Toast */}
           {copied && (
             <span className="absolute left-full ml-1 top-0 text-primary animate-pulse whitespace-nowrap">
-              Copied!
+              Email Copied!
             </span>
           )}
         </div>

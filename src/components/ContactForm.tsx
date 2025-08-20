@@ -139,7 +139,7 @@ export default function ContactForm() {
 
         <motion.div
           className="glass-card p-12 space-y-8 rounded-3xl"
-          initial={{ opacity: 0, y: 50 }}
+          initial="hidden"
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}

@@ -13,16 +13,30 @@ export const initLenis = async () => {
     try {
       const LenisConstructor = (await import('lenis')).default;
       
+      // Detect if it's mobile
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+      
       lenis = new LenisConstructor({
-        lerp: 0.1,
-        duration: 1.2,
+        // 🔧 FIXED: Slower, smoother scrolling
+        lerp: 0.1,           // Reduced from 0.1 (slower interpolation)
+        duration: 1.2,        // Increased from 1.2 (longer duration)
+        
         orientation: 'vertical',
         gestureOrientation: 'vertical',
         smoothWheel: true,
+        
+        // 🔧 FIXED: Mobile scroll support
+        syncTouch: true,      // Changed from false - enables touch scrolling
+        touchMultiplier: isMobile ? 2 : 1,  // Better touch sensitivity on mobile
         wheelMultiplier: 1,
-        touchMultiplier: 1,
-        syncTouch: false,
-        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        
+        // 🔧 FIXED: Better mobile easing
+        easing: (t: number) => {
+          // Smoother easing function for better feel
+          return 1 - Math.pow(1 - t, 3);
+          // return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        },
+        
         autoResize: true,
         infinite: false,
       });
@@ -34,10 +48,10 @@ export const initLenis = async () => {
       }
       requestAnimationFrame(raf);
 
-      // Make lenis available globally - Fixed: proper typing
+      // Make lenis available globally
       (window as unknown as { lenis: LenisInstance }).lenis = lenis as LenisInstance;
       
-      console.log('Lenis initialized successfully');
+      console.log('Lenis initialized successfully', { isMobile });
       return lenis;
     } catch (error) {
       console.error('Failed to initialize Lenis:', error);
@@ -53,6 +67,6 @@ export const destroyLenis = () => {
   if (lenis) {
     lenis.destroy();
     lenis = null;
-    delete (window as unknown as { lenis?: LenisInstance }).lenis; // Fixed: proper typing
+    delete (window as unknown as { lenis?: LenisInstance }).lenis;
   }
 };
