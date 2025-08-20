@@ -893,14 +893,14 @@ const Footer = () => {
         <div
           className="flex items-center gap-2 cursor-pointer group relative"
           onClick={copyEmail}
-          title="Click to copy email"
+          title="Click to copy email to clipboard"
         >
           <Clipboard className="w-5 h-5 text-foreground group-hover:text-primary transition-colors" />
-          <span className="underline group-hover:text-primary">{email}</span>
+          <span className="group-hover:text-primary">Clipboard</span>
 
           {/* Toast */}
           {copied && (
-            <span className="absolute left-full ml-2 top-0 text-primary text-xs animate-pulse whitespace-nowrap">
+            <span className="absolute left-full ml-1 top-0 text-primary animate-pulse whitespace-nowrap">
               Copied!
             </span>
           )}
@@ -934,7 +934,7 @@ const Footer = () => {
           <Mail />
         </a>
         <a
-          href="https://www.linkedin.com/in/kaustubh-pawar-344a31277/"
+          href="https://www.linkedin.com/in/kaustubh-pawar22/"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-primary transition-colors"
