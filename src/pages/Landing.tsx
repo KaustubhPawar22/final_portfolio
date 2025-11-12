@@ -602,9 +602,9 @@ const EXPERIENCES: Experience[] = [
   {
     role: "M.Sc. Business Analytics",
     company: "Warwick Business School",
-    period: "Starts September 2025",
+    period: "September 2025 – Present",
     description:
-      "Incoming postgraduate student in Business Analytics, focusing on data-driven decision making, statistical modeling, and business strategy.",
+      "Currently pursuing a Master’s in Business Analytics, focusing on data-driven decision-making, predictive analytics, and strategic problem-solving.",
   },
 ];
 
