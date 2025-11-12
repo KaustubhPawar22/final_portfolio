@@ -101,7 +101,7 @@ const HeroSection = () => {
             size="lg"
             className="glass-card hover:scale-105 transition-transform"
           >
-            <a href="/resume.gif" download>
+            <a href="/resume.pdf" download>
               Resume <Download className="w-4 h-4 ml-2" />
             </a>
           </Button>
