@@ -22,7 +22,7 @@ export default function Page() {
         align-items: center;
         gap: 10px;
       ">
-        <span>🚧 This website is under development — updates coming soon!</span>
+        <span>This site is a work in progress, just like any good data project — improving with every iteration.</span>
         <svg width="22" height="22" viewBox="0 0 36 36" style="flex-shrink: 0;">
           <circle cx="18" cy="18" r="16" stroke="rgba(255,255,255,0.3)" stroke-width="3" fill="none" />
           <circle cx="18" cy="18" r="16" stroke="white" stroke-width="3" fill="none"
@@ -38,7 +38,7 @@ export default function Page() {
     // Glassy Apple-style design
     Object.assign(toast.style, {
       position: 'fixed',
-      bottom: '30px',
+      top: '30px',
       left: '50%',
       transform: 'translateX(-50%)',
       backdropFilter: 'blur(12px)',
