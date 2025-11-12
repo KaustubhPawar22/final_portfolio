@@ -223,8 +223,7 @@ const AboutSection = () => {
         >
           <h2 className="text-4xl font-bold mb-6">About Kaustubh</h2>
             <p className="text-lg text-foreground/70 mb-6 leading-relaxed">
-  A Computer Science graduate with a strong foundation in analytics, I’m currently pursuing my MSc in Business Analytics at 
-  <strong>Warwick Business School</strong>. My passion lies in bridging the gap between data and business strategy — transforming complex datasets into insights that drive informed, impactful decisions.
+  A Computer Science graduate with a strong foundation in analytics, I’m currently pursuing my MSc in Business Analytics at <strong>Warwick Business School</strong>. My passion lies in bridging the gap between data and business strategy — transforming complex datasets into insights that drive informed, impactful decisions.
 </p>
 
 <p className="text-lg text-foreground/70 mb-6 leading-relaxed">
