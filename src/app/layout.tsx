@@ -22,7 +22,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Kaustubh Pawar | Data Analytics & Business Intelligence Professional",
+  title: "Kaustubh Pawar – Business & Data Analytics | Empowering Smarter Decisions",
   description:
     "Computer Science graduate specializing in data-driven business insights, dashboard development, and strategic analytics. Experienced in Tableau, Python, SQL, and business intelligence solutions.",
   keywords: [
