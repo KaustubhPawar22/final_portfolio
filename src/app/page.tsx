@@ -81,7 +81,7 @@ export default function Page() {
     // Fade out & cleanup after 5 seconds
     setTimeout(() => {
       toast.style.opacity = '0';
-      toast.style.bottom = '30px';
+      toast.style.top = '30px';
       clearInterval(countdown);
       setTimeout(() => toast.remove(), 600);
     }, duration);
