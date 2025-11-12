@@ -130,11 +130,9 @@ export default function ContactForm() {
   return (
     <section id="contact" className="py-24 px-6">
       <div className="container mx-auto max-w-2xl text-center">
-        <h2 className="frosted-text text-4xl font-bold mb-4">Get In Touch</h2>
+        <h2 className="frosted-text text-4xl font-bold mb-4">Let’s Talk Analytics & Strategy!</h2>
         <p className="frosted-text text-foreground/70 mb-8">
-          I&apos;m currently open to new opportunities and collaborations. If
-          you have a project in mind or just want to connect, feel free to reach
-          out.
+          I&apos;m passionate about combining business intuition with data-driven insights — open to  analytics and consulting opportunities and collaborations.
         </p>
 
         <motion.div
