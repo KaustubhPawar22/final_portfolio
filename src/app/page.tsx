@@ -67,7 +67,7 @@ export default function Page() {
     // Animate countdown circle
     const circle = toast.querySelectorAll('circle')[1];
     let offset = 0;
-    const duration = 5000; // 5 seconds
+    const duration = 7000; // 5 seconds
     const interval = 50;
     const totalSteps = duration / interval;
     const dashLength = 100;
