@@ -61,7 +61,7 @@ export default function Page() {
     // Animate toast in
     setTimeout(() => {
       toast.style.opacity = '1';
-      toast.style.bottom = '50px';
+      toast.style.top = '50px';
     }, 200);
 
     // Animate countdown circle
