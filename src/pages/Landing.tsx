@@ -222,20 +222,19 @@ const AboutSection = () => {
           className="glass-card max-w-4xl mx-auto p-8 sm:p-8"
         >
           <h2 className="text-4xl font-bold mb-6">About Kaustubh</h2>
-          <p className="text-lg text-foreground/70 mb-6 leading-relaxed">
-            A Computer Science graduate with a strong foundation in analytics,
-            passionate about bridging the gap between data and business
-            strategy. Currently preparing to join Warwick Business School for an
-            MSc in Business Analytics. Skilled in data storytelling, dashboard
-            development, and uncovering insights that influence real-world
-            outcomes.
-          </p>
-          <p className="text-lg text-foreground/70 mb-6 leading-relaxed">
-            I have a curious mind with a love for translating data into
-            narratives that inspire action. My professional values are rooted in
-            insight-driven decision-making, clear communication, and continuous
-            learning.
-          </p>
+            <p className="text-lg text-foreground/70 mb-6 leading-relaxed">
+  A Computer Science graduate with a strong foundation in analytics, I’m currently pursuing my MSc in Business Analytics at 
+  <strong>Warwick Business School</strong>. My passion lies in bridging the gap between data and business strategy — transforming complex datasets into insights that drive informed, impactful decisions.
+</p>
+
+<p className="text-lg text-foreground/70 mb-6 leading-relaxed">
+  Skilled in <strong>data storytelling</strong>, <strong>dashboard design</strong>, and <strong>analytical problem-solving</strong>, I enjoy uncovering patterns that reveal opportunities and influence strategic outcomes. I believe great analytics isn’t just about numbers — it’s about <strong>clarity, context, and communication</strong>.
+</p>
+
+<p className="text-lg text-foreground/70 mb-6 leading-relaxed">
+  With a curious mind and a commitment to continuous learning, I aim to combine technical expertise with business acumen to help organisations make smarter, insight-driven decisions.
+</p>
+          
         </motion.div>
 
         {/* RIGHT SIDE - MEMOJI + FOCUS AREAS */}
