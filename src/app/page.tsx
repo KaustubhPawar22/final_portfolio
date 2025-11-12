@@ -18,7 +18,7 @@ export default function Page() {
     toast.textContent = 'This site is a work in progress, just like any good data project — improving with every iteration.';
     Object.assign(toast.style, {
       position: 'fixed',
-      bottom: '30px',
+      top: '30px',
       left: '50%',
       transform: 'translateX(-50%)',
       background: '#333',
